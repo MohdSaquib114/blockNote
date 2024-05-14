@@ -1,13 +1,20 @@
 import { Image,Space,Button } from 'antd';
 
-export default function WriteCard({id,data, name,handleEdit,handleDelete,handleDragStart
-   , handleDragOver
-   , handleDrop
-        }:{id:number,data:string,name:string}) {
+
+
+export default function WriteCard({id,data, name,handleEdit,handleDelete,handleDragStart, handleDragOver, handleDrop }
+    :{  id:number,
+        data:string, 
+        name:string,
+        handleEdit:(id:number)=>void,
+        handleDelete:(id:number)=>void,
+        handleDragStart:(event:React.DragEvent<HTMLLIElement>,id:number)=>void,
+        handleDragOver:(event:React.DragEvent<HTMLLIElement>)=>void,
+        handleDrop:(event:React.DragEvent<HTMLLIElement>,id:number) => void  }) {
     
 
   return (
-    <li draggable={true} onDragStart={()=>handleDragStart(event,id)} onDragOver={handleDragOver} onDrop={()=>handleDrop(event,id)} className='border-2  p-5 flex flex-col gap-5    justify-center rounded-md w-full '>
+    <li draggable={true} onDragStart={(event)=>handleDragStart(event,id)} onDragOver={handleDragOver} onDrop={(event)=>handleDrop(event,id)} className='border-2  p-5 flex flex-col gap-5    justify-center rounded-md w-full '>
       {name  ?  <div>
 
       <Image

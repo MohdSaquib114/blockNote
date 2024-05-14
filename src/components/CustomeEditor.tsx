@@ -1,18 +1,23 @@
 import { Button,  Space, } from 'antd';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import {  BtnBold, BtnClearFormatting, BtnItalic,BtnUnderline,Editor,EditorProvider,Toolbar} from 'react-simple-wysiwyg';
-import { EditDataType, WritingDataContext } from './WritingDataProvider';
+import {  BtnBold, BtnClearFormatting, BtnItalic,BtnUnderline,ContentEditableEvent,Editor,EditorProvider,Toolbar} from 'react-simple-wysiwyg';
+import { WritingDataContext, WritingDataType } from './WritingDataProvider';
 
 
 
 const Text = () => {
-  const {data,setData,editData,setEditData,textVisibility,setTextVisibility} = useContext(WritingDataContext)
-  const [value,setValue] = useState(editData?editData.data:"" )
+  const {data,editData,textVisibility,setData,setTextVisibility,setEditData} = useContext(WritingDataContext)
+  const [value,setValue] = useState("" )
 
+useEffect(()=>{
+  if(editData?.data){
+
+    setValue(editData.data)
+  }
+},[editData])
   
-
-  const handleChange = (event) => {
+  const handleChange = (event:ContentEditableEvent) => {
     const inputText = event.target.value;
    
       setValue(inputText);
@@ -22,9 +27,9 @@ const Text = () => {
       if(value == ""){
         return
       }
-      if(editData.data){
-        const newData = data.map((dataObj:EditDataType,id:number)=>{
-          if(id !== dataObj?.id) return  dataObj
+      if(editData?.data){
+        const newData = data?.map((dataObj:WritingDataType,id:number)=>{
+          if(id !== editData?.id) return  dataObj
           dataObj.data = value as string
           return dataObj
         })
@@ -32,7 +37,7 @@ const Text = () => {
         setData(newData)
         setTextVisibility(false)
         setValue("")
-        setEditData({})
+        setEditData(undefined)
         return
       }
          const writeData = {
@@ -42,12 +47,12 @@ const Text = () => {
          setData([...data,writeData])
          setTextVisibility(false)
          setValue("")
-         
+         setEditData(undefined)
     }
     const handleCancel = ()=> {
       setTextVisibility(false)
       setValue("")
-      setEditData({})
+      setEditData(undefined)
     }
 
     return (
@@ -66,7 +71,7 @@ const Text = () => {
     </EditorProvider>
     
          <Space direction="horizontal">
-      <Button onClick={handleClick} >{editData.data ?"Edit":"Post"}</Button>
+      <Button onClick={handleClick} >{editData?.data ?"Edit":"Post"}</Button>
       <Button onClick={handleCancel}  style={{backgroundColor:"red", color:"white"}}>Cancel</Button>
       </Space>
       

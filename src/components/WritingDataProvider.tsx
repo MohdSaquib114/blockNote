@@ -1,8 +1,9 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 
 export type WritingDataType = {
     data:string,
-    name:string
+    name:string,
+ 
 }
 export type EditDataType = {
     data:string,
@@ -10,15 +11,32 @@ export type EditDataType = {
     id:number
 }
 
-export const WritingDataContext = createContext()
+interface WritingDataContextType {
+    imgVisibility: boolean;
+    setImgVisibility: React.Dispatch<React.SetStateAction<boolean>>;
+    textVisibility: boolean;
+    setTextVisibility: React.Dispatch<React.SetStateAction<boolean>>;
+    data:WritingDataType[],
+    editData:EditDataType | undefined,
+    setData: React.Dispatch<React.SetStateAction<WritingDataType[]>>;
+    setEditData: React.Dispatch<React.SetStateAction<EditDataType | undefined>>;
+    // Add other properties if needed
+    user: null;
+    setProfile: React.Dispatch<React.SetStateAction<null>>;
+    profile:null;
+    setUser: React.Dispatch<React.SetStateAction<null>>; 
+}
+//t<WritingDataContextType>({} as WritingDataContextType);
+export const WritingDataContext = createContext<WritingDataContextType>({} as WritingDataContextType)
 
 const WritingDataProvider = ({children}:{children:ReactNode}) => {
     const [data,setData] = useState<WritingDataType[]>([])
-    const [editData,setEditData] = useState({})
+    const [editData,setEditData] = useState<EditDataType | undefined >()
     const [textVisibility,setTextVisibility] = useState(false)
     const [imgVisibility,setImgVisibility] = useState(false)
-    const [ user, setUser ] = useState([]);
-    const [ profile, setProfile ] = useState([]);
+    const [ user, setUser ] = useState(null);
+    const [ profile, setProfile ] = useState(null);
+    
 
    
 

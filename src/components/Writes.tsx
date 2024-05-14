@@ -6,29 +6,29 @@ const  Writes = () => {
     const {data,setData,setEditData,setTextVisibility}  = useContext(WritingDataContext)
     const handleEdit = (dataId:number) => {
         
-        const editData = data.find((_,id:number)=>dataId === id )
-        editData.id = dataId
+        const editData = data.find((_,id:number)=>dataId === id )!
+      
+        setEditData({...editData,id:dataId} )
         setTextVisibility(true)
-      setEditData(editData)
     }
 
     const handleDelete = (dataId:number) => {
       
-        const newData  = data.filter((dataObj,id)=>id !== dataId)
+        const newData  = data.filter((_,id)=>id !== dataId)
         
         setData(newData)
     }
-      const handleDragStart = (event, id) => {
-    event.dataTransfer.setData('index', id);
+      const handleDragStart = (event:React.DragEvent<HTMLLIElement>, id:number) => {
+    event.dataTransfer.setData('index', String(id) );
   };
 
-  const handleDragOver = (event) => {
+  const handleDragOver = (event:React.DragEvent<HTMLLIElement>) => {
     event.preventDefault();
   };
 
-  const handleDrop = (event, newIndex) => {
+  const handleDrop = (event:React.DragEvent<HTMLLIElement>, newIndex:number) => {
     
-    const oldIndex = event.dataTransfer.getData('index');
+    const oldIndex =Number( event.dataTransfer.getData('index'));
     
     const newData = [...data];
     const draggedItem = newData.splice(oldIndex, 1)[0];
@@ -48,43 +48,5 @@ const  Writes = () => {
     
     </div>
 }
-
-// const Writes = () => {
-//   const [items, setItems] = useState(['Item 1', 'Item 2', 'Item 3', 'Item 4']);
-
-//   const handleDragStart = (e, index) => {
-//     e.dataTransfer.setData('index', index);
-//   };
-
-//   const handleDragOver = (e) => {
-//     e.preventDefault();
-//   };
-
-//   const handleDrop = (e, newIndex) => {
-//     const oldIndex = e.dataTransfer.getData('index');
-//     const newItems = [...items];
-//     const draggedItem = newItems.splice(oldIndex, 1)[0];
-//     newItems.splice(newIndex, 0, draggedItem);
-//     setItems(newItems);
-//   };
-//   return (
-//     <div className="drag-drop-list">
-//       <h2>Drag and Drop List</h2>
-//       <ul>
-//         {items.map((item, index) => (
-//           <li
-//             key={index}
-//             draggable
-//             onDragStart={(e) => handleDragStart(e, index)}
-//             onDragOver={handleDragOver}
-//             onDrop={(e) => handleDrop(e, index)}
-//           >
-//             {item}
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
 
 export default Writes

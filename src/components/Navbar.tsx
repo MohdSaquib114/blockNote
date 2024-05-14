@@ -15,7 +15,7 @@ export default function Navbar() {
                 axios
                     .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
                         headers: {
-                            Authorization: `Bearer ${user.access_token}`,
+                            Authorization: `Bearer ${user?.access_token}`,
                             Accept: 'application/json'
                         }
                     })
@@ -40,12 +40,12 @@ export default function Navbar() {
     <div className="border-b-2 p-3 flex content-center  justify-between" >
       <h1 className="text-lg font-medium self-center ">BlockNote</h1>
       <div className="flex gap-1">
-        <div className="flex  border-2 p-1 rounded-sm gap-1 ">
+        {profile && <div className="flex  border-2 p-1 rounded-sm gap-1 ">
 
                     <img className="w-10 h-10 rounded-full" src={profile?.picture} alt="user image" />
                    
                     <p className="self-center">{profile?.name}</p>
-        </div>
+        </div>}
                   
                   
                    

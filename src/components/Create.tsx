@@ -47,7 +47,7 @@ export default function Create() {
                     icon={<SignatureFilled />}
                 />
         </Space>
-        <ImageUpload visibility={imgVisibility} setVisibility={setImgVisibility} />
+        <ImageUpload  />
         <CustomEditor   />
   </Space>
    

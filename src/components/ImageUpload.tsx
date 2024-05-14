@@ -8,21 +8,21 @@ type ImgDataType = {
     name:string
 }
 
-const ImageUpload = ({visibility,setVisibility}) => {
+const ImageUpload = () => {
 
     const {data,setData,imgVisibility,setImgVisibility } = useContext(WritingDataContext);
     const [imgData,setImgData] = useState<ImgDataType>()
 
-    const [selectedFile,setSelectedFile] = useState(null)
+ 
    
   const handleFileChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     const reader  = new FileReader()
     reader.onload = () => {
       
-        setImgData({data:reader.result,name:file.name})  
+        setImgData({data:String(reader.result),name:String(file?.name)})  
     }
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file as Blob)
    
 
   };
@@ -31,7 +31,7 @@ const ImageUpload = ({visibility,setVisibility}) => {
         
         setData([...data,imgData])
         setImgVisibility(false)
-        setImgData({})
+        setImgData(undefined)
    
     }
     
