@@ -1,4 +1,4 @@
-import {  useGoogleLogin } from "@react-oauth/google";
+import {  TokenResponse, useGoogleLogin } from "@react-oauth/google";
 import { useContext } from "react";
 import { WritingDataContext } from "../components/WritingDataProvider";
 import { useNavigate } from "react-router-dom";
@@ -8,19 +8,22 @@ export default function LoginPage() {
     const {setUser} = useContext(WritingDataContext)
     const  navigate = useNavigate()
     const login = useGoogleLogin({
-        onSuccess: (codeResponse) => { 
+        onSuccess: (codeResponse:Omit<TokenResponse, "error" | "error_description" | "error_uri">) => { 
             setUser(codeResponse)
             navigate("/home-page")
 
         },
         onError: (error) => console.log('Login Failed:', error)
     });
+    const handleLogin = ()=>{
+        login()
+    }
   return (
     <div className="w-screen h-screen flex flex-col place-items-center justify-center gap-5">
         <h1 className="text-xl font-bold text-slate-700">BlockNote App</h1>
       <div className="flex flex-col gap-5  border-2 p-10 rounded-md text-center">
         <h2 className="text-lg font-semibold text-slate-700">Login with google</h2>
-        <button className="border-2 p-2 rounded-sm flex gap-2" onClick={login} ><GoogleLogo/> Sign in with google</button>
+        <button className="border-2 p-2 rounded-sm flex gap-2" onClick={handleLogin} ><GoogleLogo/> Sign in with google</button>
       </div>
     </div>
   )
